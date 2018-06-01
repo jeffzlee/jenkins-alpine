@@ -1,12 +1,18 @@
-FROM ubuntu:xenial
+FROM alpine:edge
 # non-interactive automated build  to avoid some warning messages
 ENV DEBIAN_FRONTEND noninteractive
-# OpenJDK8 
-RUN apt update; \
-  apt upgrade -y; \
-  apt install -y default-jre curl wget git ; \
-  apt-get clean
-
+# OpenJDK8 ...  
+RUN apk add --update --progress \
+        musl \
+        build-base \
+        python3 \
+        python3-dev \
+        bash \
+        wget \
+        git \
+        curl \
+        default-jre \
+&& pip3 install --no-cache-dir --upgrade pip
 ENV JAVA_HOME /usr
 ENV PATH $JAVA_HOME/bin:$PATH
 
