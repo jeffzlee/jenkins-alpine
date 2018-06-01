@@ -1,11 +1,11 @@
 FROM alpine:edge
 # non-interactive automated build  to avoid some warning messages
 ENV DEBIAN_FRONTEND noninteractive
-#RUN echo 'http://mirrors.ustc.edu.cn/alpine/edge/main' > /etc/apk/repositories
-#RUN echo '@community http://mirrors.ustc.edu.cn/alpine/edge/community' >> /etc/apk/repositories
-#RUN echo '@testing http://mirrors.ustc.edu.cn/alpine/edge/testing' >> /etc/apk/repositories
-#RUN apk update &&\ 
-#    apk upgrade 
+RUN echo 'http://mirrors.ustc.edu.cn/alpine/edge/main' > /etc/apk/repositories
+RUN echo '@community http://mirrors.ustc.edu.cn/alpine/edge/community' >> /etc/apk/repositories
+RUN echo '@testing http://mirrors.ustc.edu.cn/alpine/edge/testing' >> /etc/apk/repositories
+RUN apk update &&\ 
+    apk upgrade 
 
 # OpenJDK8 ...  
 RUN apk add --update \
@@ -21,7 +21,7 @@ RUN pip3 install --no-cache-dir --upgrade pip
 ENV JAVA_HOME /usr/lib/jvm/java-1.8-openjdk/jre
 ENV PATH $PATH:/usr/lib/jvm/java-1.8-openjdk/jre/bin:/usr/lib/jvm/java-1.8-openjdk/bin
 
-ENV JAVA_VERSION 8u151
+ENV JAVA_VERSION 8u161
 ENV JAVA_ALPINE_VERSION 8.161.12-r0
 
 RUN apk add --no-cache 	openjdk8-jre="$JAVA_ALPINE_VERSION" 
