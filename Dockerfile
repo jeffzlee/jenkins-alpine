@@ -1,8 +1,14 @@
-FROM alpine:latest
+FROM alpine:edge
 # non-interactive automated build  to avoid some warning messages
 ENV DEBIAN_FRONTEND noninteractive
+RUN echo 'http://mirrors.ustc.edu.cn/alpine/edge/main' > /etc/apk/repositories
+RUN echo '@community http://mirrors.ustc.edu.cn/alpine/edge/community' >> /etc/apk/repositories
+RUN echo '@testing http://mirrors.ustc.edu.cn/alpine/edge/testing' >> /etc/apk/repositories
+RUN apk update &&\ 
+    apk upgrade 
+
 # OpenJDK8 ...  
-RUN apk add --no-cache --virtual .build-deps \
+RUN apk add --update \
         musl \
         build-base \
         python3 \
@@ -14,7 +20,7 @@ RUN apk add --no-cache --virtual .build-deps \
         openjdk:8u151-jdk-alpine 
  
 
- RUN pip3 install --no-cache-dir --upgrade pip
+RUN pip3 install --no-cache-dir --upgrade pip
 ENV JAVA_HOME /usr
 ENV PATH $JAVA_HOME/bin:$PATH
 
