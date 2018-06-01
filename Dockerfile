@@ -1,4 +1,4 @@
-FROM alpine:edge
+FROM alpine:latest
 # non-interactive automated build  to avoid some warning messages
 ENV DEBIAN_FRONTEND noninteractive
 # OpenJDK8 ...  
@@ -10,9 +10,9 @@ RUN apk add --update --progress \
         bash \
         wget \
         git \
-        curl
- RUN apk update 
- RUN apk add --progress openjdk:8u151-jdk-alpine 
+        curl \
+        openjdk:8u151-jdk-alpine 
+ 
 
  RUN pip3 install --no-cache-dir --upgrade pip
 ENV JAVA_HOME /usr
