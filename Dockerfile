@@ -10,7 +10,7 @@ RUN apk add --update --progress \
         bash \
         wget \
         git \
-        curl 
+        curl
  RUN apk update 
  RUN apk add --progress openjdk:8u131-jdk-alpine 
 
