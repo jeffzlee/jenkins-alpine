@@ -8,7 +8,6 @@ RUN apk add --update --progress \
         python3 \
         python3-dev \
         bash \
-        ca-certificates \
         wget \
         git \
         curl 
