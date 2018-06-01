@@ -1,11 +1,11 @@
 FROM alpine:edge
 # non-interactive automated build  to avoid some warning messages
 ENV DEBIAN_FRONTEND noninteractive
-RUN echo 'http://mirrors.ustc.edu.cn/alpine/edge/main' > /etc/apk/repositories
-RUN echo '@community http://mirrors.ustc.edu.cn/alpine/edge/community' >> /etc/apk/repositories
-RUN echo '@testing http://mirrors.ustc.edu.cn/alpine/edge/testing' >> /etc/apk/repositories
-RUN apk update &&\ 
-    apk upgrade 
+#RUN echo 'http://mirrors.ustc.edu.cn/alpine/edge/main' > /etc/apk/repositories
+#RUN echo '@community http://mirrors.ustc.edu.cn/alpine/edge/community' >> /etc/apk/repositories
+#RUN echo '@testing http://mirrors.ustc.edu.cn/alpine/edge/testing' >> /etc/apk/repositories
+#RUN apk update &&\ 
+#    apk upgrade 
 
 # OpenJDK8 ...  
 RUN apk add --update \
@@ -18,25 +18,13 @@ RUN apk add --update \
         git \
         curl        
 RUN pip3 install --no-cache-dir --upgrade pip
-RUN { \
-		echo '#!/bin/sh'; \
-		echo 'set -e'; \
-		echo; \
-		echo 'dirname "$(dirname "$(readlink -f "$(which javac || which java)")")"'; \
-	} > /usr/local/bin/docker-java-home \
-	&& chmod +x /usr/local/bin/docker-java-home
 ENV JAVA_HOME /usr/lib/jvm/java-1.8-openjdk/jre
 ENV PATH $PATH:/usr/lib/jvm/java-1.8-openjdk/jre/bin:/usr/lib/jvm/java-1.8-openjdk/bin
 
 ENV JAVA_VERSION 8u151
 ENV JAVA_ALPINE_VERSION 8.151.12-r0
 
-RUN set -x \
-	&& apk add --no-cache \
-		openjdk8-jre="$JAVA_ALPINE_VERSION" \
-	&& [ "$JAVA_HOME" = "$(docker-java-home)" ]
-
-
+RUN apk add --no-cache 	openjdk8-jre="$JAVA_ALPINE_VERSION" 
 
 
 # get maven and checksum
