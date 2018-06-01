@@ -16,13 +16,28 @@ RUN apk add --update \
         bash \
         wget \
         git \
-        curl \
-        openjdk:8u151-jdk-alpine 
- 
-
+        curl        
 RUN pip3 install --no-cache-dir --upgrade pip
-ENV JAVA_HOME /usr
-ENV PATH $JAVA_HOME/bin:$PATH
+RUN { \
+		echo '#!/bin/sh'; \
+		echo 'set -e'; \
+		echo; \
+		echo 'dirname "$(dirname "$(readlink -f "$(which javac || which java)")")"'; \
+	} > /usr/local/bin/docker-java-home \
+	&& chmod +x /usr/local/bin/docker-java-home
+ENV JAVA_HOME /usr/lib/jvm/java-1.8-openjdk/jre
+ENV PATH $PATH:/usr/lib/jvm/java-1.8-openjdk/jre/bin:/usr/lib/jvm/java-1.8-openjdk/bin
+
+ENV JAVA_VERSION 8u151
+ENV JAVA_ALPINE_VERSION 8.151.12-r0
+
+RUN set -x \
+	&& apk add --no-cache \
+		openjdk8-jre="$JAVA_ALPINE_VERSION" \
+	&& [ "$JAVA_HOME" = "$(docker-java-home)" ]
+
+
+
 
 # get maven and checksum
 RUN wget --no-verbose -O /tmp/apache-maven-3.2.2.tar.gz http://archive.apache.org/dist/maven/maven-3/3.2.2/binaries/apache-maven-3.2.2-bin.tar.gz 
