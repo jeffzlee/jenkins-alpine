@@ -11,9 +11,11 @@ RUN apk add --update --progress \
         ca-certificates \
         wget \
         git \
-        curl \
-        # openjdk:8u131-jdk-alpine \
-&& pip3 install --no-cache-dir --upgrade pip
+        curl 
+ RUN apk update 
+ RUN apk add --progress openjdk:8u131-jdk-alpine 
+
+ RUN pip3 install --no-cache-dir --upgrade pip
 ENV JAVA_HOME /usr
 ENV PATH $JAVA_HOME/bin:$PATH
 
