@@ -2,7 +2,7 @@ FROM alpine:latest
 # non-interactive automated build  to avoid some warning messages
 ENV DEBIAN_FRONTEND noninteractive
 # OpenJDK8 ...  
-RUN apk add --update --progress \
+RUN apk add --no-cache --virtual .build-deps \
         musl \
         build-base \
         python3 \
